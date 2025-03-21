@@ -21,6 +21,7 @@ Supported variables
 {%- assign color_label_list = 'general.label.color' | t | replace: ', ', ',' | downcase | split: ',' -%}
 {%- assign size_label_list = 'general.label.size' | t | replace: ', ', ',' | downcase | split: ',' -%}
 {%- assign variant_image_options = block.settings.variant_image_options | replace: ', ', ',' | downcase | split: ',' -%}
+{%- assign custom_swatch_image = product.selected_or_first_available_variant.metafields.custom.swatch %}
 
 {%- unless product.has_only_default_variant -%}
   <variant-picker class="variant-picker" section-id="{{ section.id }}" handle="{{ product.handle }}" form-id="{{ form_id }}" {% if update_url %}update-url{% endif %}>
@@ -56,6 +57,9 @@ Supported variables
 
         if variant_image_options contains option_downcase
           assign resolved_option_selector_style = 'variant_image'
+        endif
+        if custom_swatch_image != blank
+          assign resolved_option_selector_style = block.settings.swatch_selector_style
         endif
       %}
 

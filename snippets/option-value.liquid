@@ -80,7 +80,10 @@ Color swatch specific parameters:
 
 {%- liquid
   if type == 'swatch' or type == 'block' and show_swatch
-    if swatch.image != blank
+    if option_value.variant.metafields.custom.swatch != blank
+      assign swatch_image = option_value.variant.metafields.custom.swatch | image_url: width: 72
+      assign swatch_style = '--swatch-background: url(' | append: swatch_image | append: ')'
+    elsif swatch.image != blank
       assign swatch_image = swatch.image | image_url: width: 72
       assign swatch_style = '--swatch-background: url(' | append: swatch_image | append: ')'
     elsif swatch.color != blank
@@ -161,7 +164,7 @@ Color swatch specific parameters:
 
       <span>{{ label | default: value }}</span>
     </{{ option_value_tag }}>
-    
+
   {%- when 'swatch' -%}
     {%- assign white_label_list = 'general.label.white' | t | replace: ', ', ',' | downcase | split: ',' -%}
 

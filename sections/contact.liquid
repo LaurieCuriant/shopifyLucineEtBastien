@@ -36,7 +36,7 @@
     {%- endif -%}
 
     <div class="section-stack__main">
-      <div {% render 'surface', class: 'contact-form rounded', background: section.settings.contact_background, text_color: section.settings.contact_text_color, background_fallback: 'bg-secondary' %}>
+      <div {% render 'surface', class: 'contact-form rounded', background: section.settings.contact_background, text_color: section.settings.contact_text_color, background_fallback: 'bg-white' %}>
         {%- capture contact_form_id -%}contact-form-{{ section.id }}{%- endcapture -%}
 
         {%- form 'contact', id: contact_form_id, class: 'form' -%}

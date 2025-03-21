@@ -88,7 +88,7 @@
               {%- when 'separator' -%}
                 <hr class="product-info__separator" {{ block.shopify_attributes }}>
 
-              {%- when 'description' -%}
+              {%- when 'short_description' -%}
                 <div class="product-info__description" {{ block.shopify_attributes }}>
                   <div class="prose">
                     {{- 'general.on_boarding.product_description' | t -}}
@@ -140,6 +140,14 @@
                     {%- render 'button', content: button_content, type: 'submit', size: 'xl', background: block.settings.atc_button_background, text_color: block.settings.atc_button_text_color -%}
                   </buy-buttons>
                 </div>
+             {%- when 'description' -%}
+               {%- if product.description != blank -%}
+                <div class="product-info__description">
+                  <div class="prose">
+                    {{- product.description -}}
+                  </div>
+                </div>
+            {%- endif -%}
             {%- endcase -%}
           {%- endfor -%}
         </safe-sticky>
@@ -269,6 +277,11 @@
     {
       "type": "description",
       "name": "Description",
+      "limit": 1
+    },
+    {
+      "type": "short_description",
+      "name": "Short description",
       "limit": 1,
       "settings": [
         {
@@ -1904,6 +1917,9 @@
         },
         {
           "type": "pickup_availability"
+        },
+        {
+          "type": "short_description"
         }
       ]
     }

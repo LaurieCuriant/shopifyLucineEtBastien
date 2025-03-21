@@ -148,7 +148,7 @@
                             {%- when 'promotion_image' -%}
                               {%- liquid
                                 assign loading_strategy = nil
-                      
+
                                 if section.index > 3 or forloop.index > 3
                                   assign loading_strategy = 'lazy'
                                 endif
@@ -228,6 +228,37 @@
         {%- render 'pagination', paginate: paginate, facet: true, class: 'collection__pagination' -%}
       </div>
     {%- endpaginate -%}
+  {%- endif -%}
+  {%- if collection.metafields.custom.collection_seo != blank -%}
+    <div class="accordion-box rounded bg-secondary">
+      <details class=" accordion  group" aria-expanded="false" is="accordion-disclosure">
+        <summary>
+          <div class="accordion__toggle bold">
+            <div class="text-with-icon">
+              {{- collection.title -}}
+            </div>
+            <span class="circle-chevron group-hover:colors group-expanded:colors group-expanded:rotate">
+              <svg
+                role="presentation"
+                focusable="false"
+                width="8"
+                height="6"
+                class="icon icon-chevron-bottom-small"
+                viewBox="0 0 8 6"
+              >
+                <path d="m1 1.5 3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+              </svg>
+            </span>
+          </div>
+        </summary>
+
+        <div class="accordion__content">
+          <div class="prose">
+            {{ collection.metafields.custom.collection_seo | metafield_tag }}
+          </div>
+        </div>
+      </details>
+    </div>
   {%- endif -%}
 </div>
 

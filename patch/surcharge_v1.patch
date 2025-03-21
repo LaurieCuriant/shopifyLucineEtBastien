@@ -1,0 +1,2174 @@
+Subject: [PATCH] update from patch
+---
+Index: assets/corner.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/assets/corner.svg b/assets/corner.svg
+new file mode 100644
+--- /dev/null	(date 1742551980000)
++++ b/assets/corner.svg	(date 1742551980000)
+@@ -0,0 +1,7 @@
++<svg width="100%" height="100%" viewBox="0 0 5 5" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
++    <g transform="matrix(1,0,0,1,-459.369,-146.357)">
++        <g transform="matrix(-0.0359912,4.40765e-18,-4.40765e-18,-0.0359912,485.715,156.724)">
++            <path d="M593.085,149.119L732.008,149.119L732.008,288.042C732.008,211.368 669.759,149.119 593.085,149.119Z" style="fill:white;"/>
++        </g>
++    </g>
++</svg>
+Index: sections/impact-text.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/sections/impact-text.liquid b/sections/impact-text.liquid
+--- a/sections/impact-text.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/sections/impact-text.liquid	(date 1742551980000)
+@@ -32,6 +32,10 @@
+       <div class="impact-text impact-text--{{ section.settings.text_alignment }} {% unless section.settings.stack_mobile %}impact-text--scroll{% endunless %}">
+           {%- for block in section.blocks -%}
+             <div class="snap-center" {{ block.shopify_attributes }}>
++               {%- if block.settings.subheading != blank -%}
++                  <h3>{{ block.settings.subheading | escape }}</h3>
++                {%- endif -%}
++
+               {%- if block.settings.title != blank -%}
+                 <h2 class="impact-text__text heading break-all">
+                   <impact-text {% if block.settings.animate_impact_text %}count-up="{{ block.settings.animate_impact_text_duration }}"{% endif %} reveal-js>
+@@ -40,13 +44,9 @@
+                 </h2>
+               {%- endif -%}
+ 
+-              {%- if block.settings.subheading != blank or block.settings.content != blank or block.settings.button_text != blank -%}
++              {%- if block.settings.content != blank or block.settings.button_text != blank -%}
+                 <div class="impact-text__content">
+                   <div class="prose">
+-                    {%- if block.settings.subheading != blank -%}
+-                      <h3 class="h4">{{ block.settings.subheading | escape }}</h3>
+-                    {%- endif -%}
+-
+                     {{- block.settings.content -}}
+ 
+                     {%- if block.settings.button_text != blank -%}
+Index: assets/corner-dark.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/assets/corner-dark.svg b/assets/corner-dark.svg
+new file mode 100644
+--- /dev/null	(date 1742551980000)
++++ b/assets/corner-dark.svg	(date 1742551980000)
+@@ -0,0 +1,7 @@
++<svg width="100%" height="100%" viewBox="0 0 5 5" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
++    <g transform="matrix(1,0,0,1,-459.369,-146.357)">
++        <g transform="matrix(-0.0359912,4.40765e-18,-4.40765e-18,-0.0359912,485.715,156.724)">
++            <path d="M593.085,149.119L732.008,149.119L732.008,288.042C732.008,211.368 669.759,149.119 593.085,149.119Z" style="fill:#22394C;"/>
++        </g>
++    </g>
++</svg>
+Index: templates/robots.txt.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/robots.txt.liquid b/templates/robots.txt.liquid
+new file mode 100644
+--- /dev/null	(date 1742551980000)
++++ b/templates/robots.txt.liquid	(date 1742551980000)
+@@ -0,0 +1,18 @@
++# we use Shopify as our ecommerce platform
++{%- comment -%}
++# Caution! Please read https://help.shopify.com/en/manual/promoting-marketing/seo/editing-robots-txt before proceeding to make changes to this file.
++{% endcomment %}
++{% for group in robots.default_groups %}
++  {{- group.user_agent -}}
++
++  {% for rule in group.rules %}
++    {{- rule -}}
++  {% endfor %}
++
++  {%- if group.sitemap != blank -%}
++    {{ group.sitemap }}
++  {%- endif -%}
++{% endfor %}
++
++User-agent: *
++Disallow: /*.atom
+\ No newline at end of file
+Index: snippets/breadcrumbs.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snippets/breadcrumbs.liquid b/snippets/breadcrumbs.liquid
+new file mode 100644
+--- /dev/null	(date 1742551980000)
++++ b/snippets/breadcrumbs.liquid	(date 1742551980000)
+@@ -0,0 +1,190 @@
++{%- capture breadcrumbSec -%}
++{% unless template == 'index' %}
++<div class="container">
++  <div class="bredcrumbWrap">
++    <nav class="{% if section.settings.section_width %}fullwidth{% else %}page-width{% endif %} breadcrumbs" role="navigation" aria-label="breadcrumbs">
++        <a href="{{routes.root_url}}" title="{{ 'general.home' | t  }}">{{ 'general.home' | t }}</a>
++        {% if template contains 'product' %}
++            {% if collection %}
++                <span aria-hidden="true" class="symbol">&nbsp;/&nbsp;</span>
++                {% if collection.handle %}
++                    {% capture url %}{{ routes.collections_url }}/{{ collection.handle }}{% endcapture %}
++                    {{ collection.title | link_to: url }}
++                {% endif %}
++            {% endif %}
++            <span aria-hidden="true" class="symbol">&nbsp;/&nbsp;</span>
++            <span class="fw-500">{{ product.title }}</span>
++        {% elsif template contains 'collection' and collection.handle %}
++            <span aria-hidden="true" class="symbol">&nbsp;/&nbsp;</span>
++            {% if current_tags %}
++                {% capture url %}{{ routes.collections_url }}/{{ collection.handle }}{% endcapture %}
++                {{ collection.title | link_to: url }}
++                <span aria-hidden="true" class="symbol">&nbsp;/&nbsp;</span>
++                <span>{{ current_tags | join: " + " }}</span>
++            {% else %}
++                <span class="fw-500">{{ collection.title }}</span>
++            {% endif %}
++        {% elsif template == 'blog' %}
++            <span aria-hidden="true" class="symbol">&nbsp;/&nbsp;</span>
++            {% if current_tags %}
++                {{ blog.title | link_to: blog.url }}
++                <span aria-hidden="true" class="symbol">&nbsp;/&nbsp;</span>
++                <span>{{ current_tags | join: " + " }}</span>
++            {% else %}
++                <span class="fw-500">{{ blog.title }}</span>
++            {% endif %}
++        {% elsif template == 'article' %}
++            <span aria-hidden="true" class="symbol">&nbsp;/&nbsp;</span>
++            {{ blog.title | link_to: blog.url }}
++            <span aria-hidden="true" class="symbol">&nbsp;/&nbsp;</span>
++            <span class="fw-500">{{ article.title }}</span>
++        {% elsif template contains 'page' %}
++            <span aria-hidden="true" class="symbol">&nbsp;/&nbsp;</span>
++            <span class="fw-500">{{ page.title }}</span>
++        {% elsif template contains 'cart' %}
++            <span aria-hidden="true" class="symbol">&nbsp;/&nbsp;</span>
++            <span class="fw-500"> {{ 'cart.general.title' | t }}</span>
++        {% else %}
++            <span aria-hidden="true" class="symbol">&nbsp;/&nbsp;</span> <span>{{ page_title }}</span>
++        {% endif %}
++    </nav>
++  </div>
++</div>
++<script type="application/ld+json">
++  {
++    "@context": "https://schema.org",
++    "@type": "BreadcrumbList",
++    "itemListElement": [
++      {
++        "@type": "ListItem",
++        "position": 1,
++        "item": {
++          "@id": "{{routes.root_url}}",
++          "name": "{{'general.breadcrumbs.home' | t}}"
++        }
++      }
++      {% if request.page_type == 'product' %}
++      	{% if collection and collection.handle %}
++        	,{
++                "@type": "ListItem",
++                "position": 2,
++                "item": {
++                  "@id": "{{ routes.collections_url }}/{{ collection.handle }}",
++                  "name": "{{collection.title}}"
++                }
++            },
++            {
++                "@type": "ListItem",
++                "position": 3,
++                "item": {
++                  "@id": "{{product.url | within: collection}}",
++                  "name": "{{ product.title }}"
++                }
++            }
++        {% else %}
++            ,{
++                "@type": "ListItem",
++                "position": 2,
++                "item": {
++                  "@id": "{{product.url | within: collection}}",
++                  "name": "{{ product.title }}"
++                }
++            }
++      	{% endif %}
++      {% elsif request.page_type == 'list-collections' %}
++        ,
++            {
++                "@type": "ListItem",
++                "position": 2,
++                "item": {
++                  "@id": "{{ routes.collections_url }}",
++                  "name": "{{ 'collections.general.all' | t }}"
++                }
++            }
++      {% elsif request.page_type == 'collection' %}
++      	,
++            {
++                "@type": "ListItem",
++                "position": 2,
++                "item": {
++                  "@id": "{{ routes.collections_url }}/{{ collection.handle }}",
++                  "name": "{{collection.title}}"
++                }
++            }
++      {% elsif request.page_type == 'blog' %}
++		,
++            {
++                "@type": "ListItem",
++                "position": 2,
++                "item": {
++                  "@id": "{{ blog.url }}",
++                  "name": "{{blog.title}}"
++                }
++            }
++            {% if current_tags %}
++            ,
++            {
++                "@type": "ListItem",
++                "position": 3,
++                "item": {
++                  "@id": "{{blog.url}}",
++                  "name": "{{ current_tags | join: " + " }}"
++                }
++            }
++      		{% endif %}
++
++      {% elsif request.page_type == 'article' %}
++		,
++            {
++                "@type": "ListItem",
++                "position": 2,
++                "item": {
++                  "@id": "{{blog.url}}",
++                  "name": "{{blog.title}}"
++                }
++            },
++            {
++                "@type": "ListItem",
++                "position": 3,
++                "item": {
++                  "@id": "{{article.url}}",
++                  "name": "{{ article.title }}"
++                }
++            }
++      {% elsif request.page_type == 'page' %}
++		,
++            {
++                "@type": "ListItem",
++                "position": 2,
++                "item": {
++                  "@id": "{{ page.url }}",
++                  "name": "{{page.title}}"
++                }
++            }
++      {% elsif request.page_type == 'cart' %}
++		,
++            {
++                "@type": "ListItem",
++                "position": 2,
++                "item": {
++                  "@id": "{{ routes.cart_url }}",
++                  "name": "{{ 'cart.general.title' | t }}"
++                }
++            }
++      {% else %}
++		,
++            {
++                "@type": "ListItem",
++                "position": 2,
++                "item": {
++                  "@id": "{{ page.url }}",
++                  "name": "{{page.title}}"
++                }
++            }
++      {% endif %}
++    ]
++  }
++</script>
++{% endunless %}
++{%- endcapture -%}
++{{ breadcrumbSec | strip_newlines | remove: '  ' | remove: '	' }}
+Index: assets/corner-light.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/assets/corner-light.svg b/assets/corner-light.svg
+new file mode 100644
+--- /dev/null	(date 1742551980000)
++++ b/assets/corner-light.svg	(date 1742551980000)
+@@ -0,0 +1,7 @@
++<svg width="100%" height="100%" viewBox="0 0 5 5" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
++    <g transform="matrix(1,0,0,1,-459.369,-146.357)">
++        <g transform="matrix(-0.0359912,4.40765e-18,-4.40765e-18,-0.0359912,485.715,156.724)">
++            <path d="M593.085,149.119L732.008,149.119L732.008,288.042C732.008,211.368 669.759,149.119 593.085,149.119Z" style="fill:#F8F4F2;"/>
++        </g>
++    </g>
++</svg>
+Index: snippets/buy-buttons.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snippets/buy-buttons.liquid b/snippets/buy-buttons.liquid
+--- a/snippets/buy-buttons.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/snippets/buy-buttons.liquid	(date 1742567923642)
+@@ -77,7 +77,7 @@
+     {%- endif -%}
+ 
+     <buy-buttons class="buy-buttons {% if show_payment_button %}buy-buttons--multiple{% endif %}" template="{{ product.template_suffix | escape }}" form="{{ form_id }}">
+-      {%- render 'button', content: button_content, type: 'submit', size: button_size, disabled: button_disabled, secondary: show_payment_button, subdued: button_disabled, background: atc_button_background, text_color: atc_button_text_color -%}
++      {%- render 'button', content: button_content, type: 'submit', size: button_size, disabled: button_disabled, primary: show_payment_button, subdued: button_disabled, background: atc_button_background, text_color: atc_button_text_color -%}
+ 
+       {%- if show_payment_button -%}
+         {{- form | payment_button -}}
+Index: assets/corner-lighter.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/assets/corner-lighter.svg b/assets/corner-lighter.svg
+new file mode 100644
+--- /dev/null	(date 1742551980000)
++++ b/assets/corner-lighter.svg	(date 1742551980000)
+@@ -0,0 +1,7 @@
++<svg width="100%" height="100%" viewBox="0 0 5 5" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
++    <g transform="matrix(1,0,0,1,-459.369,-146.357)">
++        <g transform="matrix(-0.0359912,4.40765e-18,-4.40765e-18,-0.0359912,485.715,156.724)">
++            <path d="M593.085,149.119L732.008,149.119L732.008,288.042C732.008,211.368 669.759,149.119 593.085,149.119Z" style="fill:#FCFAF9;"/>
++        </g>
++    </g>
++</svg>
+Index: sections/main-product.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/sections/main-product.liquid b/sections/main-product.liquid
+--- a/sections/main-product.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/sections/main-product.liquid	(date 1742567898571)
+@@ -223,8 +223,8 @@
+       "name": "Separator"
+     },
+     {
+-      "type": "description",
+-      "name": "Description",
++      "type": "short_description",
++      "name": "Short description",
+       "limit": 1,
+       "settings": [
+         {
+@@ -519,6 +519,16 @@
+       ]
+     },
+     {
++      "type": "specifications",
++      "name": "Specifications",
++      "limit": 1
++    },
++    {
++      "type": "description",
++      "name": "Description",
++      "limit": 1
++    },
++    {
+       "type": "variant_picker",
+       "name": "Variant picker",
+       "limit": 1,
+Index: snippets/navigation-panel.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snippets/navigation-panel.liquid b/snippets/navigation-panel.liquid
+--- a/snippets/navigation-panel.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/snippets/navigation-panel.liquid	(date 1742551980000)
+@@ -58,7 +58,7 @@
+ 
+             {%- endunless -%}
+ 
+-            <li class="h3 sm:h4">
++            <li class="h3 sm:h4 {{ link.title | escape_once | downcase }}">
+               {%- if link.links.size > 0 or mega_menu_block != '' and is_mega_menu == false -%}
+                 <button class="text-with-icon w-full group justify-between" aria-expanded="false" data-panel="1-{% increment level_1 %}">
+                   <span>{{ link.title }}</span>
+Index: layout/theme.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/layout/theme.liquid b/layout/theme.liquid
+--- a/layout/theme.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/layout/theme.liquid	(date 1742568772302)
+@@ -15,8 +15,17 @@
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=1.0">
+     <meta name="theme-color" content="{{ settings.header_background }}">
+ 
+-    <title>{% if page_title == blank %}{{ shop.name }}{% else %}{{ page_title }}{% if current_page != 1 %} &ndash; {{ 'general.page' | t: page: current_page }}{% endif %}{% endif %}</title>
+-
++    <title>
++      {% if page_title == blank %}
++        {{ shop.name }}
++      {% else %}
++        {{ page_title }}
++        {% if current_page != 1 %}
++          &ndash; {{ 'general.page' | t: page: current_page }}
++        {% endif %}
++        {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
++      {% endif %}
++    </title>
+     {%- if page_description -%}
+       <meta name="description" content="{{ page_description | escape }}">
+     {%- endif -%}
+@@ -73,6 +82,7 @@
+     {{ content_for_header }}
+ 
+     {{- 'theme.css' | asset_url | stylesheet_tag: preload: true -}}
++    {{- 'custom.css' | asset_url | stylesheet_tag: preload: true -}}
+   </head>
+ 
+   <body class="{% if settings.zoom_image_on_hover %}zoom-image--enabled{% endif %}">
+@@ -94,6 +104,7 @@
+     {%- endif -%}
+ 
+     <main role="main" id="main" class="anchor">
++      {% render 'breadcrumbs' %}
+       {{ content_for_layout }}
+ 
+       {%- comment -%}
+@@ -104,5 +115,6 @@
+         {%- sections 'footer-group' -%}
+       {%- endif -%}
+     </main>
++    <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"b99c7a8316f4e643eb25263abddd6ec6"})});</script>
+   </body>
+ </html>
+\ No newline at end of file
+Index: sections/featured-product.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/sections/featured-product.liquid b/sections/featured-product.liquid
+--- a/sections/featured-product.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/sections/featured-product.liquid	(date 1742567470029)
+@@ -88,7 +88,7 @@
+               {%- when 'separator' -%}
+                 <hr class="product-info__separator" {{ block.shopify_attributes }}>
+ 
+-              {%- when 'description' -%}
++              {%- when 'short_description' -%}
+                 <div class="product-info__description" {{ block.shopify_attributes }}>
+                   <div class="prose">
+                     {{- 'general.on_boarding.product_description' | t -}}
+@@ -140,6 +140,14 @@
+                     {%- render 'button', content: button_content, type: 'submit', size: 'xl', background: block.settings.atc_button_background, text_color: block.settings.atc_button_text_color -%}
+                   </buy-buttons>
+                 </div>
++             {%- when 'description' -%}
++               {%- if product.description != blank -%}
++                <div class="product-info__description">
++                  <div class="prose">
++                    {{- product.description -}}
++                  </div>
++                </div>
++            {%- endif -%}
+             {%- endcase -%}
+           {%- endfor -%}
+         </safe-sticky>
+@@ -269,6 +277,11 @@
+     {
+       "type": "description",
+       "name": "Description",
++      "limit": 1
++    },
++    {
++      "type": "short_description",
++      "name": "Short description",
+       "limit": 1,
+       "settings": [
+         {
+@@ -1904,6 +1917,9 @@
+         },
+         {
+           "type": "pickup_availability"
++        },
++        {
++          "type": "short_description"
+         }
+       ]
+     }
+Index: snippets/product-badges.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snippets/product-badges.liquid b/snippets/product-badges.liquid
+--- a/snippets/product-badges.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/snippets/product-badges.liquid	(date 1742551980000)
+@@ -20,6 +20,16 @@
+ {%- assign variant = variant | default: product.selected_or_first_available_variant -%}
+ 
+ {%- capture badges -%}
++  {% if product.tags contains "collector" %}
++     <span class="badge badge--lg badge--collector">
++         {{- 'product.general.collector_badge' | t -}}
++     </span>
++  {% endif %}
++   {% if product.tags contains "pre-order" %}
++     <span class="badge badge--lg badge--collector">
++         {{- 'product.general.preorder_badge' | t -}}
++     </span>
++  {% endif %}
+   {%- for badge_type in badge_types -%}
+     {%- assign stripped_badge_type = badge_type | strip -%}
+ 
+@@ -28,7 +38,7 @@
+         {%- assign custom_badges = product.metafields.custom.badges.value | sort -%}
+ 
+         {%- for custom_badge in custom_badges -%}
+-          <span class="badge badge--primary">{{ custom_badge }}</span>
++          <span class="badge badge--lg badge--primary">{{ custom_badge }}</span>
+         {%- endfor -%}
+ 
+       {%- when 'sold_out' -%}
+Index: sections/header.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/sections/header.liquid b/sections/header.liquid
+--- a/sections/header.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/sections/header.liquid	(date 1742551980000)
+@@ -115,7 +115,7 @@
+                     endfor
+                   %}
+ 
+-                  <li>
++                  <li class="{{ link.title | escape_once | downcase }}">
+                     {%- if link.levels == 0 and mega_menu_block == '' -%}
+                       <a href="{{ link.url }}" class="bold link-faded-reverse" {% if link.current %}aria-current="page"{% endif %}>{{- link.title -}}</a>
+                     {%- else -%}
+Index: sections/contact.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/sections/contact.liquid b/sections/contact.liquid
+--- a/sections/contact.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/sections/contact.liquid	(date 1742571571707)
+@@ -36,7 +36,7 @@
+     {%- endif -%}
+ 
+     <div class="section-stack__main">
+-      <div {% render 'surface', class: 'contact-form rounded', background: section.settings.contact_background, text_color: section.settings.contact_text_color, background_fallback: 'bg-secondary' %}>
++      <div {% render 'surface', class: 'contact-form rounded', background: section.settings.contact_background, text_color: section.settings.contact_text_color, background_fallback: 'bg-white' %}>
+         {%- capture contact_form_id -%}contact-form-{{ section.id }}{%- endcapture -%}
+ 
+         {%- form 'contact', id: contact_form_id, class: 'form' -%}
+Index: snippets/variant-picker.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snippets/variant-picker.liquid b/snippets/variant-picker.liquid
+--- a/snippets/variant-picker.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/snippets/variant-picker.liquid	(date 1742568662512)
+@@ -21,6 +21,7 @@
+ {%- assign color_label_list = 'general.label.color' | t | replace: ', ', ',' | downcase | split: ',' -%}
+ {%- assign size_label_list = 'general.label.size' | t | replace: ', ', ',' | downcase | split: ',' -%}
+ {%- assign variant_image_options = block.settings.variant_image_options | replace: ', ', ',' | downcase | split: ',' -%}
++{%- assign custom_swatch_image = product.selected_or_first_available_variant.metafields.custom.swatch %}
+ 
+ {%- unless product.has_only_default_variant -%}
+   <variant-picker class="variant-picker" section-id="{{ section.id }}" handle="{{ product.handle }}" form-id="{{ form_id }}" {% if update_url %}update-url{% endif %}>
+@@ -57,6 +58,9 @@
+         if variant_image_options contains option_downcase
+           assign resolved_option_selector_style = 'variant_image'
+         endif
++        if custom_swatch_image != blank
++          assign resolved_option_selector_style = block.settings.swatch_selector_style
++        endif
+       %}
+ 
+       <fieldset class="variant-picker__option">
+Index: sections/main-collection.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/sections/main-collection.liquid b/sections/main-collection.liquid
+--- a/sections/main-collection.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/sections/main-collection.liquid	(date 1742569069985)
+@@ -148,7 +148,7 @@
+                             {%- when 'promotion_image' -%}
+                               {%- liquid
+                                 assign loading_strategy = nil
+-                      
++
+                                 if section.index > 3 or forloop.index > 3
+                                   assign loading_strategy = 'lazy'
+                                 endif
+@@ -229,6 +229,37 @@
+       </div>
+     {%- endpaginate -%}
+   {%- endif -%}
++  {%- if collection.metafields.custom.collection_seo != blank -%}
++    <div class="accordion-box rounded bg-secondary">
++      <details class=" accordion  group" aria-expanded="false" is="accordion-disclosure">
++        <summary>
++          <div class="accordion__toggle bold">
++            <div class="text-with-icon">
++              {{- collection.title -}}
++            </div>
++            <span class="circle-chevron group-hover:colors group-expanded:colors group-expanded:rotate">
++              <svg
++                role="presentation"
++                focusable="false"
++                width="8"
++                height="6"
++                class="icon icon-chevron-bottom-small"
++                viewBox="0 0 8 6"
++              >
++                <path d="m1 1.5 3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5"></path>
++              </svg>
++            </span>
++          </div>
++        </summary>
++
++        <div class="accordion__content">
++          <div class="prose">
++            {{ collection.metafields.custom.collection_seo | metafield_tag }}
++          </div>
++        </div>
++      </details>
++    </div>
++  {%- endif -%}
+ </div>
+ 
+ {% schema %}
+Index: snippets/product-gallery.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snippets/product-gallery.liquid b/snippets/product-gallery.liquid
+--- a/snippets/product-gallery.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/snippets/product-gallery.liquid	(date 1742569182719)
+@@ -165,7 +165,7 @@
+         <page-dots align-selected class="product-gallery__thumbnail-list scroll-area bleed md:unbleed" aria-controls="{{ product_gallery_id }}">
+           {%- for media in product.media -%}
+             <button type="button" class="product-gallery__thumbnail" {% if filtered_indexes contains media.position %}hidden{% endif %} aria-current="{% if media == default_media %}true{% else %}false{% endif %}" aria-label="{{ 'general.accessibility.go_to_item' | t: index: forloop.index | escape }}">
+-              {{- media | image_url: width: media.preview_image.width | image_tag: loading: 'lazy', sizes: '(max-width: 699px) 56px, 64px', widths: '56,64,112,128,168,192', class: 'object-contain rounded-sm' -}}
++              {{- media | image_url: width: media.preview_image.width | image_tag: loading: 'lazy', sizes: '(max-width: 699px) 56px, 64px', widths: '56,64,112,128,168,192', class: 'object-cover rounded-sm' -}}
+ 
+               {%- unless media.media_type == 'image' -%}
+                 <div class="product-gallery__media-badge">
+Index: sections/main-blog.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/sections/main-blog.liquid b/sections/main-blog.liquid
+--- a/sections/main-blog.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/sections/main-blog.liquid	(date 1742571575318)
+@@ -32,7 +32,7 @@
+       </div>
+     </div>
+   {%- else -%}
+-    <header {% render 'surface', class: 'blog-banner', text_color: section.settings.banner_text_color, background: section.settings.banner_background, background_fallback: 'bg-secondary' %}>
++    <header {% render 'surface', class: 'blog-banner', text_color: section.settings.banner_text_color, background: section.settings.banner_background, background_fallback: 'bg-white' %}>
+       <div class="container">
+         <div class="blog-banner-content v-stack gap-10 text-center justify-items-center">
+           <div class="v-stack gap-5 sm:gap-8">
+Index: sections/main-cart.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/sections/main-cart.liquid b/sections/main-cart.liquid
+--- a/sections/main-cart.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/sections/main-cart.liquid	(date 1742551980000)
+@@ -55,7 +55,7 @@
+                     endif
+                   %}
+ 
+-                  <tr>
++                  <tr class="cart__row cart-item">
+                     <td>{%- render 'line-item', line_item: line_item -%}</td>
+ 
+                     <td class="hidden align-center text-center text-subdued sm:table-cell">
+Index: snippets/option-value.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snippets/option-value.liquid b/snippets/option-value.liquid
+--- a/snippets/option-value.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/snippets/option-value.liquid	(date 1742568100534)
+@@ -80,7 +80,10 @@
+ 
+ {%- liquid
+   if type == 'swatch' or type == 'block' and show_swatch
+-    if swatch.image != blank
++    if option_value.variant.metafields.custom.swatch != blank
++      assign swatch_image = option_value.variant.metafields.custom.swatch | image_url: width: 72
++      assign swatch_style = '--swatch-background: url(' | append: swatch_image | append: ')'
++    elsif swatch.image != blank
+       assign swatch_image = swatch.image | image_url: width: 72
+       assign swatch_style = '--swatch-background: url(' | append: swatch_image | append: ')'
+     elsif swatch.color != blank
+@@ -161,7 +164,7 @@
+ 
+       <span>{{ label | default: value }}</span>
+     </{{ option_value_tag }}>
+-    
++
+   {%- when 'swatch' -%}
+     {%- assign white_label_list = 'general.label.white' | t | replace: ', ', ',' | downcase | split: ',' -%}
+ 
+Index: snippets/product-card.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snippets/product-card.liquid b/snippets/product-card.liquid
+--- a/snippets/product-card.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/snippets/product-card.liquid	(date 1742568519510)
+@@ -33,11 +33,17 @@
+   {%- assign mobile_reduced = true -%}
+ {%- endif -%}
+ 
+-{%- assign section_background = section.settings.background_gradient | default: section.settings.background | default: settings.background -%}
++{%- assign section_background = section.settings.background_gradient
++  | default: section.settings.background
++  | default: settings.background
++-%}
+ {%- assign card_background = background | default: settings.product_card_background -%}
+ {%- assign card_text_color = text_color | default: settings.product_card_text_color -%}
+ 
+-{%- if section_background != 'rgba(0,0,0,0)' and card_background != 'rgba(0,0,0,0)' and section_background != card_background -%}
++{%- if section_background != 'rgba(0,0,0,0)'
++  and card_background != 'rgba(0,0,0,0)'
++  and section_background != card_background
++-%}
+   {%- assign card_class = 'product-card ' -%}
+ {%- else -%}
+   {%- assign card_class = 'product-card product-card--blends ' -%}
+@@ -46,12 +52,24 @@
+ {%- if show_secondary_image and product.media.size > 1 -%}
+   {%- assign card_class = card_class | append: 'product-card--show-secondary-media' -%}
+ {%- endif -%}
++{%- liquid
++  assign productUrl = product.url | within: collection
++  if settings.clname
++    assign productUrl = product.url
++  endif
++-%}
+ 
+-<product-card handle="{{ product.handle | escape }}" {% if reveal and settings.stagger_products_apparition %}reveal-js{% endif %} {% render 'surface', class: card_class, background: card_background, text_color: card_text_color %}>
++<product-card
++  handle="{{ product.handle | escape }}"
++  {% if reveal and settings.stagger_products_apparition %}
++    reveal-js
++  {% endif %}
++  {% render 'surface', class: card_class, background: card_background, text_color: card_text_color %}
++>
+   {%- comment -%}
+-  --------------------------------------------------------------------------------------------------------------------
+-  PRODUCT BADGES
+-  --------------------------------------------------------------------------------------------------------------------
++    --------------------------------------------------------------------------------------------------------------------
++    PRODUCT BADGES
++    --------------------------------------------------------------------------------------------------------------------
+   {%- endcomment -%}
+ 
+   {%- if show_badges and product.media.size > 0 -%}
+@@ -59,14 +77,14 @@
+   {%- endif -%}
+ 
+   {%- comment -%}
+-  --------------------------------------------------------------------------------------------------------------------
+-  PRODUCT MEDIA
+-  --------------------------------------------------------------------------------------------------------------------
++    --------------------------------------------------------------------------------------------------------------------
++    PRODUCT MEDIA
++    --------------------------------------------------------------------------------------------------------------------
+   {%- endcomment -%}
+ 
+   {%- if product.media.size > 0 -%}
+     <div class="product-card__figure">
+-      <a href="{{ product.url }}" data-instant>
++      <a href="{{ productUrl }}" data-instant>
+         {%- capture sizes -%}
+           {%- if stacked -%}
+             (max-width: 699px) calc(100vw / {{ section.settings.products_per_row_mobile }} - 40px), (max-width: 1200px) calc(100vw / {{ 3 | at_most: section.settings.products_per_row_desktop }} - 64px), calc((100vw - 96px) / {{ section.settings.products_per_row_desktop }} - (24px / {{ section.settings.products_per_row_desktop }} * {{ section.settings.products_per_row_desktop | minus: 1 }}))
+@@ -77,18 +95,35 @@
+ 
+         {%- liquid
+           assign main_media_loading_strategy = nil
+-          
++
+           if section.index > 3 or position > 3
+             assign main_media_loading_strategy = 'lazy'
+           endif
+         -%}
+ 
+         {%- capture main_image_classes -%}product-card__image product-card__image--primary {% if settings.product_image_aspect_ratio contains 'crop' %}object-fill-safe{% endif %} aspect-{{ settings.product_image_aspect_ratio | split: '_' | first }}{%- endcapture -%}
+-        {{- product.featured_media | image_url: width: product.featured_media.width | image_tag: loading: main_media_loading_strategy, sizes: sizes, widths: '200,300,400,500,600,700,800,1000,1200,1400,1600,1800', class: main_image_classes -}}
++        {{-
++          product.featured_media
++          | image_url: width: product.featured_media.width
++          | image_tag:
++            loading: main_media_loading_strategy,
++            sizes: sizes,
++            widths: '200,300,400,500,600,700,800,1000,1200,1400,1600,1800',
++            class: main_image_classes
++        -}}
+ 
+         {%- if show_secondary_image and product.media.size > 1 -%}
+           {%- assign next_media = product.media[product.featured_media.position] | default: product.media[1] -%}
+-          {{- next_media | image_url: width: next_media.width | image_tag: class: 'product-card__image product-card__image--secondary object-fill', loading: 'lazy', fetchpriority: 'low', sizes: sizes, widths: '200,300,400,500,600,700,800,1000,1200,1400,1600,1800' -}}
++          {{-
++            next_media
++            | image_url: width: next_media.width
++            | image_tag:
++              class: 'product-card__image product-card__image--secondary object-fill',
++              loading: 'lazy',
++              fetchpriority: 'low',
++              sizes: sizes,
++              widths: '200,300,400,500,600,700,800,1000,1200,1400,1600,1800'
++          -}}
+         {%- endif -%}
+       </a>
+ 
+@@ -101,7 +136,12 @@
+               <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+ 
+               <div class="pointer-fine:hidden">
+-                <button type="submit" is="custom-button" class="product-card__mobile-quick-buy-button" aria-label="{{ quick_add_label | escape }}">
++                <button
++                  type="submit"
++                  is="custom-button"
++                  class="product-card__mobile-quick-buy-button"
++                  aria-label="{{ quick_add_label | escape }}"
++                >
+                   {%- render 'icon' with 'quick-buy-cart' -%}
+                 </button>
+               </div>
+@@ -114,7 +154,14 @@
+             {%- capture quick_buy_id -%}quick-buy-{{ section.id }}-{{ product.id }}{%- endcapture -%}
+ 
+             <div class="pointer-fine:hidden">
+-              <button type="button" aria-controls="{{ quick_buy_id }}" aria-expanded="false" aria-label="{{ quick_add_label | escape }}" is="custom-button" class="product-card__mobile-quick-buy-button">
++              <button
++                type="button"
++                aria-controls="{{ quick_buy_id }}"
++                aria-expanded="false"
++                aria-label="{{ quick_add_label | escape }}"
++                is="custom-button"
++                class="product-card__mobile-quick-buy-button"
++              >
+                 {%- render 'icon' with 'quick-buy-cart' -%}
+               </button>
+             </div>
+@@ -123,7 +170,15 @@
+               {%- render 'button', content: quick_add_label, aria_controls: quick_buy_id -%}
+             </div>
+ 
+-            <quick-buy-drawer id="{{ quick_buy_id }}" header-bordered open-from="bottom" handle="{{ product.handle }}?variant={{ product.selected_or_first_available_variant.id }}" role="region" aria-live="polite" class="quick-buy-drawer drawer">
++            <quick-buy-drawer
++              id="{{ quick_buy_id }}"
++              header-bordered
++              open-from="bottom"
++              handle="{{ product.handle }}?variant={{ product.selected_or_first_available_variant.id }}"
++              role="region"
++              aria-live="polite"
++              class="quick-buy-drawer drawer"
++            >
+               {%- comment -%}Quick buy content is filled on demand for performance reasons {%- endcomment -%}
+             </quick-buy-drawer>
+           {%- endif -%}
+@@ -133,9 +188,9 @@
+   {%- endif -%}
+ 
+   {%- comment -%}
+-  --------------------------------------------------------------------------------------------------------------------
+-  PRODUCT INFO
+-  --------------------------------------------------------------------------------------------------------------------
++    --------------------------------------------------------------------------------------------------------------------
++    PRODUCT INFO
++    --------------------------------------------------------------------------------------------------------------------
+   {%- endcomment -%}
+ 
+   <div class="product-card__info {% if text_alignment == 'center' %}product-card__info--center{% endif %}">
+@@ -145,7 +200,11 @@
+           {%- render 'vendor' with product.vendor, class: 'text-xs' -%}
+ 
+           {%- capture rating_class -%}{% if mobile_reduced %}hidden sm:flex{% endif %}{%- endcapture -%}
+-          {%- render 'product-rating', product: product, class: rating_class, display_mode: settings.product_rating_mode -%}
++          {%- render 'product-rating',
++            product: product,
++            class: rating_class,
++            display_mode: settings.product_rating_mode
++          -%}
+         </div>
+       {%- else -%}
+         {%- render 'vendor' with product.vendor, class: 'text-xs' -%}
+@@ -155,15 +214,23 @@
+     <div class="v-stack gap-0.5 w-full {% if text_alignment == 'center' %}justify-items-center{% endif %}">
+       {%- if show_rating and show_vendor == false or product.vendor == blank -%}
+         <div class="rating-with-text">
+-          <span class="product-card__title"><a href="{{ product.url }}" class="bold" data-instant>{{ product.title }}</a></span>
++          <span class="product-card__title"
++            ><a href="{{ productUrl }}" class="bold" data-instant>{{ product.title }}</a></span
++          >
+ 
+           {%- if text_alignment != 'center' -%}
+             {%- capture rating_class -%}{% if mobile_reduced %}hidden sm:flex{% endif %}{%- endcapture -%}
+-            {%- render 'product-rating', product: product, class: rating_class, display_mode: settings.product_rating_mode -%}
++            {%- render 'product-rating',
++              product: product,
++              class: rating_class,
++              display_mode: settings.product_rating_mode
++            -%}
+           {%- endif -%}
+         </div>
+       {%- else -%}
+-        <span class="product-card__title"><a href="{{ product.url }}" class="bold" data-instant>{{ product.title }}</a></span>
++        <span class="product-card__title"
++          ><a href="{{ productUrl }}" class="bold" data-instant>{{ product.title }}</a></span
++        >
+       {%- endif -%}
+ 
+       {%- render 'price-list', product: product, text_alignment: text_alignment -%}
+@@ -180,14 +247,19 @@
+       {%- for color_label in color_label_list -%}
+         {%- if product.options_by_name[color_label] != blank -%}
+           {%- assign product_option = product.options_by_name[color_label] -%}
+-          
++
+           <div class="product-card__aside">
+             {%- case settings.product_color_display -%}
+               {%- when 'count' -%}
+-                <p class="product-card__color-count text-sm text-subdued">{{- 'product.general.available_colors_count' | t: count: product_option.values.size -}}</p>
++                <p class="product-card__color-count text-sm text-subdued">
++                  {{- 'product.general.available_colors_count' | t: count: product_option.values.size -}}
++                </p>
+ 
+               {%- when 'swatch' -%}
+-                <fieldset class="product-card__swatch-list h-stack {% if settings.color_swatch_style == 'rectangle' %}gap-2.5{% else %}gap-0.5{% endif %}" data-option-position="{{ product_option.position }}">
++                <fieldset
++                  class="product-card__swatch-list h-stack {% if settings.color_swatch_style == 'rectangle' %}gap-2.5{% else %}gap-0.5{% endif %}"
++                  data-option-position="{{ product_option.position }}"
++                >
+                   <legend class="sr-only">{{ product_option.name }}</legend>
+ 
+                   {%- capture param_name -%}swatch-{{ quick_buy_context }}-{{ section.id }}-{{ product.id }}-{{ product_option.position }}{%- endcapture -%}
+@@ -199,31 +271,49 @@
+                   -%}
+ 
+                   {% if product_option.values.size > 4 %}
+-                    <a href="{{ product.url }}" data-instant class="color-swatch__view-more {% if settings.color_swatch_style == 'round' %}rounded-full{% endif %} text-xxs text-subdued">+{{ product_option.values.size | minus: 4 }}</a>
++                    <a
++                      href="{{ productUrl }}"
++                      data-instant
++                      class="color-swatch__view-more {% if settings.color_swatch_style == 'round' %}rounded-full{% endif %} text-xxs text-subdued"
++                      >+{{ product_option.values.size | minus: 4 -}}
++                    </a>
+                   {% endif %}
+                 </fieldset>
+ 
+               {%- when 'variant' -%}
+                 <fieldset class="product-card__variant-list" data-option-position="{{ product_option.position }}">
+                   <legend class="sr-only">{{ product_option.name }}</legend>
+-                  
++
+                   {%- capture param_name -%}swatch-{{ quick_buy_context }}-{{ section.id }}-{{ product.id }}-{{ product_option.position }}{%- endcapture -%}
+ 
+                   {%- for option_value in product_option.values limit: 4 -%}
+-                    {%- if forloop.first or option_value.variant.matched and option_value == product_option.selected_value -%}
++                    {%- if forloop.first
++                      or option_value.variant.matched
++                      and option_value == product_option.selected_value
++                    -%}
+                       {%- assign selected = true -%}
+                     {%- else -%}
+                       {%- assign selected = false -%}
+                     {%- endif -%}
+ 
+-                    {%- render 'option-value', type: 'thumbnail', image: option_value.variant.featured_media, option_value: option_value, param_name: param_name, size: 'sm', output_variant_media: true, selected: selected -%}
++                    {%- render 'option-value',
++                      type: 'thumbnail',
++                      image: option_value.variant.featured_media,
++                      option_value: option_value,
++                      param_name: param_name,
++                      size: 'sm',
++                      output_variant_media: true,
++                      selected: selected
++                    -%}
+                   {%- endfor -%}
+ 
+                   {%- if product_option.values.size > 4 -%}
+-                    <a href="{{ product.url }}" data-instant class="thumbnail-swatch__view-more text-xs text-subdued">+{{ product_option.values.size | minus: 4 }}</a>
++                    <a href="{{ productUrl }}" data-instant class="thumbnail-swatch__view-more text-xs text-subdued"
++                      >+{{ product_option.values.size | minus: 4 -}}
++                    </a>
+                   {%- endif -%}
+                 </fieldset>
+-              {%- endcase -%}
++            {%- endcase -%}
+           </div>
+ 
+           {%- break -%}
+@@ -231,4 +321,5 @@
+       {%- endfor -%}
+     {%- endif -%}
+   </div>
+-</product-card>
+\ No newline at end of file
++  <a href="{{ productUrl }}" data-instant class="overlay"></a>
++</product-card>
+Index: snippets/product-info.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/snippets/product-info.liquid b/snippets/product-info.liquid
+--- a/snippets/product-info.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/snippets/product-info.liquid	(date 1742569108250)
+@@ -151,23 +151,21 @@
+         {%- when 'separator' -%}
+           <hr class="product-info__separator">
+ 
+-        {%- when 'description' -%}
+-          {%- if block.settings.collapse_content -%}
+-            {%- if product.description != blank -%}
+-              {%- capture accordion_title -%}{{ 'product.general.description' | t }}{%- endcapture -%}
+-              {%- capture accordion_content -%}<div class="prose">{{ product.description }}</div>{%- endcapture -%}
+-
+-              {%- assign icon = block.settings.custom_icon | default: block.settings.icon -%}
+-              {%- render 'accordion', title: accordion_title, content: accordion_content, icon: icon, icon_width: block.settings.icon_width, class: 'product-info__accordion', block: block -%}
+-            {%- endif -%}
+-          {%- else -%}
+-            {%- if product.description != blank -%}
+-              <div class="product-info__description">
+-                <div class="prose">
+-                  {{- product.description -}}
+-                </div>
+-              </div>
+-            {%- endif -%}
++        {%- when 'short_description' -%}
++            {%- if product.metafields.custom.product_short_description != blank -%} 
++              {%- if block.settings.collapse_content -%}
++                {%- capture accordion_title -%}{{ 'product.general.description' | t }}{%- endcapture -%}
++                {%- capture accordion_content -%}<div class="prose">{{ product.metafields.custom.product_short_description | metafield_tag  }}</div>{%- endcapture -%}
++  
++                {%- assign icon = block.settings.custom_icon | default: block.settings.icon -%}
++                {%- render 'accordion', title: accordion_title, content: accordion_content, icon: icon, icon_width: block.settings.icon_width, class: 'product-info__accordion', block: block -%}
++              {%- else -%}
++                <div class="product-info__description">
++                  <div class="prose">
++                    {{- product.metafields.custom.product_short_description | metafield_tag -}}
++                  </div>
++                </div>
++             {%- endif -%}
+           {%- endif -%}
+ 
+         {%- when 'variant_picker' -%}
+@@ -320,7 +318,32 @@
+           <div class="product-info__pickup-availability">
+             {%- render 'pickup-availability', product_variant: product.selected_or_first_available_variant -%}
+           </div>
+-
++         {%- when 'description' -%}
++          {%- if product.description != blank -%}
++            <div class="product-info__description">
++              <div class="prose">
++                {{- product.description -}}
++              </div>
++            </div>
++          {%- endif -%}
++        {%- when 'specifications' -%}
++            {%- if product.metafields.custom.product_specifications != blank -%} 
++              <div class="feature-chart text-custom">
++                <div class="feature-chart__table divide-y scroll-area">
++                  {%- for specification in product.metafields.custom.product_specifications.value -%}
++                    {% assign specification_detail = specification | split: ":" %}
++                    <div class="feature-chart__table-row">
++                      <div class="feature-chart__heading bold">
++                        {{ specification_detail[0] }}
++                      </div>
++                      <div class="feature-chart__value prose text-subdued">
++                        {{ specification_detail[1] }}
++                      </div>
++                    </div>
++                  {% endfor %}
++                </div>
++              </div>
++          {%- endif -%}
+         {%- when 'text' -%}
+           {%- if block.settings.text != blank -%}
+             <div class="product-info__text">
+Index: sections/footer.liquid
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/sections/footer.liquid b/sections/footer.liquid
+--- a/sections/footer.liquid	(revision 0c273059e792a1dfdcae451b64c9690671c4b5d1)
++++ b/sections/footer.liquid	(date 1742567578763)
+@@ -178,10 +178,9 @@
+           {%- endif -%}
+ 
+           <div class="footer__copyright v-stack gap-1">
+-            <p class="text-sm text-subdued">© {{ 'now' | date: '%Y' }}, {{ shop.name }}. {{ powered_by_link }}</p>
+-
+             {%- if section.settings.show_policy_links and shop.policies.size > 0 -%}
+               <ul class="footer__policy-links unstyled-list">
++                <li>{{ 'now' | date: '%Y' }}, {{ shop.name }}</li>
+                 {%- for policy in shop.policies -%}
+                   <li class="contents"><a href="{{ policy.url }}" class="text-sm link-faded">{{ policy.title }}</a></li>
+                 {%- endfor -%}
+@@ -373,4 +372,4 @@
+     }
+   ]
+ }
+-{% endschema %}
+\ No newline at end of file
++{% endschema %}
+Index: assets/custom.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/assets/custom.css b/assets/custom.css
+new file mode 100644
+--- /dev/null	(date 1742572013158)
++++ b/assets/custom.css	(date 1742572013158)
+@@ -0,0 +1,1016 @@
++*,
++:before,
++:after {
++    border-color: rgba(210, 186, 160, 0.5);
++}
++
++:root {
++    --mobile-icon-max-width: 60px;
++    --rounded-button: 0 20px;
++    --rounded: 0 40px;
++    --rounded-large: 0 70px;
++    --rounded-small: 0 5px;
++    --rounded-sm: var(--rounded-button);
++    --shadow: 0 2px 8px rgb(100 75 48 / 15%);
++    --rounded-input: var(--rounded-small);
++    --lb-spc-border-radius: 0 30px;
++}
++
++@media screen and (min-width: 700px) {
++    :root {
++        --input-height: 2.8rem;
++    }
++
++}
++.block-swatch {
++    white-space: nowrap;
++}
++
++.cart-form {
++    border-width: 0;
++    background: #fff;
++    box-shadow: var(--shadow);
++}
++
++.quantity-input {
++    height: 48px;
++    background: #fff;
++    font-size: 18px;
++}
++.feature-chart {
++    background: #fff;
++    box-shadow: var(--shadow);
++    border-radius: var(--rounded);
++    --feature-chart-values-columns-count: 1;
++}
++
++.footer__block--newsletter .input {
++    border-color: #8fa0b4;
++}
++
++.product-gallery__thumbnail img {
++    aspect-ratio: 1;
++}
++
++.shopify-section--newsletter .section-full {
++    padding: 40px 0 0;
++}
++
++.product-card {
++    display: block;
++    overflow: hidden;
++}
++
++.offer {
++    box-shadow: var(--shadow);
++}
++
++.collection-card,
++.product-card {
++    border-radius: var(--rounded);
++    overflow: hidden;
++}
++
++.product-card__info {
++    background: rgb(var(--background));
++    border-radius: var(--rounded);
++}
++
++body {
++    --gradient: linear-gradient(
++            180deg,
++            rgba(188, 86, 63, 0.7),
++            rgba(188, 86, 63, 0) 100%
++    );
++}
++
++.image-link-blocks__item {
++    border-radius: var(--rounded);
++    overflow: hidden;
++}
++
++.quantity-selector {
++    border-radius: 0 10px;
++    border: 1px solid #d2baa0;
++    overflow: hidden;
++}
++
++.quantity-selector .quantity-selector__button {
++    border-right: 1px solid #d2baa0;
++    background: #f2e9e4;
++    padding: 0 14px;
++}
++
++.quantity-selector .quantity-selector__button:last-of-type {
++    border-left: 1px solid #d2baa0;
++    border-right: none;
++}
++
++.quantity-selector__input {
++    width: 40px;
++}
++
++.content-over-media {
++    aspect-ratio: 1;
++}
++
++.header__wrapper {
++    border-radius: 0 0 0 70px;
++}
++
++.slideshow__slide .content-over-media {
++    aspect-ratio: initial;
++}
++
++.color-swatch,
++.thumbnail-swatch > img,
++.tpo_image-swatches-wrapper > .tpo_shape_square > div:first-child {
++    aspect-ratio: 1;
++    height: initial;
++    border-radius: 0 10px;
++    border: 4px solid #fff;
++}
++
++.tpo_image-swatches-wrapper > label,
++.tpo_image-swatches-wrapper > article {
++    --swatches-border: rgb(var(--text-color) / 0.12);
++}
++
++.thumbnail-swatch,
++.tpo_image-swatches-wrapper > .tpo_shape_square,
++.tpo_image-swatches-wrapper > .tpo_shape_square > div:first-child {
++    border-radius: 0 10px !important;
++}
++
++.color-swatch {
++    width: 40px;
++    box-shadow: 0 0 0 1px #d2baa0;
++}
++
++.color-swatch:before {
++    width: calc(100% + 8px);
++    box-shadow: 0 0 0 2px #40301e;
++    aspect-ratio: 1;
++    inset: initial;
++    left: -4px !important;
++    bottom: -4px;
++}
++
++.announcement-bar__wrapper .bold {
++    font-weight: 400;
++}
++
++.product-card__quick-buy {
++    z-index: 10;
++    left: calc(90% - 130px);
++    bottom: 20px;
++    width: 110px;
++}
++
++.text-with-icons__text-wrapper .h6 {
++    color: #b2563f;
++}
++
++.text-with-icons__text-wrapper {
++    color: #151f26;
++}
++
++.section-full {
++    border-radius: var(--rounded-large);
++}
++
++.gravity-button {
++    --gravity-button-height: clamp(
++            25px,
++            var(--shopify-accelerated-checkout-button-block-size, 44px),
++            60px
++    );
++}
++
++.shopify-payment-button {
++    filter: saturate(11%) hue-rotate(-25deg);
++}
++
++.impact-text:after,
++.impact-text:before,
++.shopify-section--announcement-bar:after,
++.footer:before,
++.header__wrapper:after,
++.jdgm-review-widget:before,
++.jdgm-review-widget:after,
++.section-full.bg-custom .section-stack:before,
++.section-full.bg-custom .section-stack:after {
++    content: "";
++    position: absolute;
++    width: 70px;
++    height: 70px;
++    display: block;
++    background-size: cover;
++    pointer-events: none;
++    background-repeat: no-repeat;
++    z-index: 1;
++}
++
++:has(.shopify-section:first-child [allow-transparent-header])
++.header:not(.is-filled)
++.predictive-search-result
++> img {
++    aspect-ratio: 1;
++    object-fit: cover;
++    border-radius: var(--rounded);
++}
++
++.impact-text:after,
++.impact-text:before,
++.section-full.bg-custom .section-stack:before,
++.section-full.bg-custom .section-stack:after {
++    background-image: url("corner.svg");
++}
++
++.header__wrapper:after,
++.jdgm-review-widget:before,
++.jdgm-review-widget:after {
++    background-image: url("corner-lighter.svg");
++}
++
++.shopify-section--announcement-bar:after,
++.footer:before {
++    background-image: url("corner-dark.svg");
++}
++
++.shopify-section--announcement-bar {
++    position: relative;
++    z-index: 11;
++}
++
++.impact-text:after,
++.shopify-section--announcement-bar:after,
++.header__wrapper:after,
++.jdgm-review-widget:after,
++.section-full.bg-custom .section-stack:after {
++    right: 0;
++    bottom: -70px;
++    transform: rotate(180deg);
++}
++
++.impact-text:before,
++.footer:before,
++.jdgm-review-widget:before,
++.section-full.bg-custom .section-stack:before {
++    top: -70px;
++    left: 0;
++}
++
++@media screen and (max-width: 700px) {
++    :root {
++        --rounded-large: 0 40px;
++    }
++
++    .image-icon {
++        --mobile-icon-max-width: 60px;
++    }
++
++    .product-info__offer-list {
++        grid-template-columns: initial;
++    }
++
++    .impact-text:after,
++    .impact-text:before,
++    .shopify-section--announcement-bar:after,
++    .footer:before,
++    .header__wrapper:after,
++    .section-full.bg-custom .section-stack:before,
++    .section-full.bg-custom .section-stack:after {
++        width: 40px;
++        height: 40px;
++    }
++
++    .impact-text:after,
++    .shopify-section--announcement-bar:after,
++    .header__wrapper:after,
++    .jdgm-review-widget:after,
++    .section-full.bg-custom .section-stack:after {
++        bottom: -40px;
++    }
++
++    .impact-text:before,
++    .footer:before,
++    .jdgm-review-widget:before,
++    .section-full.bg-custom .section-stack:before {
++        top: -40px;
++    }
++
++    .header__wrapper {
++        border-radius: 0 0 0 40px;
++    }
++    .bg-white {
++        border-radius: 0 40px;
++    }
++}
++
++.popover::part(content) {
++    border-radius: var(--rounded-button);
++}
++
++.overlay {
++    position: absolute;
++    top: 0;
++    bottom: 0;
++    width: 100%;
++}
++
++.breadcrumbs {
++    display: flex;
++    font-size: 14px;
++    margin: 30px 0;
++}
++
++.shopify-section--main-collection .accordion__content h2 {
++    font-size: var(--text-h5);
++}
++
++.shopify-section--main-collection .accordion__content h3,
++.shopify-section--main-collection .accordion__content h4,
++.shopify-section--main-collection .accordion__content h5,
++.shopify-section--main-collection .accordion__content h6 {
++    font-size: var(--text-h6);
++}
++
++.count-bubble {
++    font-size: 13px;
++    font-weight: 400;
++    border-radius: var(--rounded-small);
++}
++
++@media screen and (min-width: 1150px) {
++    .section-stack__main {
++        width: 100%;
++    }
++
++    .section-stack__intro + .section-stack__main {
++        width: var(--section-stack-main, 50%);
++    }
++}
++
++/** newsletter**/
++.newsletter-content input {
++    border: 1px solid #8fa0b4;
++    border-radius: 0 0 0 10px;
++}
++
++.newsletter-content .button {
++    border-radius: 0 10px 0 0;
++}
++
++.newsletter-content .button:hover {
++    box-shadow: inset 0 0 0 1px currentColor !important;
++}
++
++.newsletter-content .fieldset-with-submit {
++    gap: 0;
++}
++
++.newsletter-content .prose p {
++    margin: 0;
++}
++
++.newsletter-content .text-custom {
++    padding-bottom: 0;
++    padding-top: 40px;
++}
++
++.bold {
++    font-weight: 600;
++}
++
++/** judge me **/
++.jdgm-star {
++    color: #dc9814 !important;
++}
++
++.jdgm-carousel-wrapper {
++    padding-bottom: 0 !important;
++}
++
++.jdgm-carousel-item__product,
++.jdgm-carousel-wrapper .jdgm-all-reviews-rating-wrapper {
++    display: none !important;
++}
++
++.jdgm-carousel-item {
++    padding: 18px 30px 38px;
++    background: #fff;
++    border-radius: var(--rounded-button);
++    box-shadow: var(--shadow);
++    height: calc(100% - 48px) !important;
++}
++
++.jdgm-carousel-wrapper .jdgm-carousel-item {
++    margin: 24px 12px;
++    padding: 20px;
++}
++
++.jdgm-widget * {
++    text-align: left;
++}
++
++.jdgm-carousel-item__review-body > p {
++    font-size: 14px;
++}
++
++.jdgm-carousel__item-wrapper {
++    height: 280px !important;
++}
++
++.jdgm-verified-wrapper:empty {
++    display: none;
++}
++
++.jdgm-carousel-title {
++    font-size: var(--text-h3);
++    line-height: 1.1;
++    text-align: left;
++}
++
++.jdgm-carousel-wrapper .jdgm-carousel-item__review {
++    height: calc(100% - 20px) !important;
++}
++
++.jdgm-carousel__right-arrow,
++.jdgm-carousel__left-arrow {
++    border-color: rgba(210, 186, 160, 0.5) !important;
++}
++
++.jdgm-rev__icon {
++    display: none !important;
++}
++
++.jdgm-histogram__bar-content {
++    background: #b2563f !important;
++}
++
++.jdgm-write-rev-link,
++.jdgm-btn--solid,
++.jdgm-btn--border {
++    font-weight: 400 !important;
++    min-height: 50px;
++    line-height: 26px !important;
++    border-radius: var(--rounded-button) !important;
++    text-align: center;
++}
++
++.jdgm-write-rev-link,
++.jdgm-btn--solid {
++    background: rgb(var(--footer-background)) !important;
++    border-color: rgb(var(--footer-background)) !important;
++}
++
++.jdgm-btn--border {
++    background: transparent ! imporant;
++    border-color: rgb(var(--footer-background)) !important;
++    color: rgb(var(--footer-background)) !important;
++}
++
++.jdgm-form input[type="text"],
++.jdgm-form input[type="email"],
++.jdgm-form input[type="url"],
++.jdgm-form textarea,
++.jdgm-picture-fieldset__box-wrapper {
++    border-color: #d2baa080 !important;
++    border-radius: var(--rounded-button) !important;
++    min-height: 50px;
++    bacground: #fff;
++}
++
++.jdgm-form input[type="text"]:focus,
++.jdgm-form input[type="text"]:focus-visible,
++.jdgm-form input[type="email"]:focus,
++.jdgm-form input[type="email"]:focus-visible,
++.jdgm-form input[type="url"]:focus,
++.jdgm-form input[type="url"]:focus-visible,
++.jdgm-form textarea:focus,
++.jdgm-form textarea:focus-visible {
++    border-color: #40301e;
++}
++
++.jdgm-sort-dropdown-wrapper .jdgm-sort-dropdown,
++.jdgm-sort-dropdown-wrapper .jdgm-sort-dropdown-arrow,
++.jdgm-rev__author {
++    color: rgb(var(--text-color)) !important;
++}
++
++.jdgm-row-actions {
++    border: none !important;
++}
++
++@media only screen and (min-width: 1355px) {
++    .jdgm-carousel-wrapper .jdgm-carousel-item {
++        width: calc(25% - 24px) !important;
++    }
++}
++
++@media only screen and (min-width: 768px) and (max-width: 1354px) {
++    .jdgm-carousel-item {
++        width: calc(50% - 24px) !important;
++    }
++}
++
++@media only screen and (max-width: 767px) {
++    .jdgm-carousel-item {
++        width: calc(100% - 24px) !important;
++    }
++}
++
++/** easyfy **/
++body .tpo_option-set-wrapper[data-tpo-theme],
++body .preview-card-container[data-tpo-mode] {
++    --tpo-font-body-family: var(--text-font-family);
++    --swatches-border: rgb(var(--text-color) / 0.12);
++}
++
++body label:has(.tpo_buttons-input:checked),
++body .tpo_buttons-wrapper .tpo_is_checked_swatches,
++body .tpo_buttons-wrapper > label,
++body .tpo_buttons-wrapper > article {
++    background: transparent !important;
++    color: rgb(var(--text-primary)) !important;
++    border-color: inherit ! imporant;
++    border-radius: var(--rounded-button) !important;
++    padding: 0 !important;
++    padding-inline-start: var(--spacing-6) !important;
++    padding-inline-end: var(--spacing-6) !important;
++    height: var(--input-height);
++    display: flex;
++    justify-content: center;
++    align-items: center;
++}
++
++body .tpo_buttons-wrapper > label,
++body .tpo_buttons-wrapper > article {
++}
++
++body .tpo_option-label-container > span {
++    font-weight: 400;
++    color: rgb(var(--text-color) / 0.7);
++}
++
++.tpo_option-label .switch:after {
++    display: none;
++}
++
++body input.tpo_option-input.tpo_text-box {
++    border-radius: var(--rounded-button) !important;
++    border-color: inherit ! imporant;
++}
++
++body .tpo_color-swatches-wrapper > .tpo_shape_circle,
++body .tpo_color-swatches-wrapper > .tpo_shape_circle > div:first-child {
++    border-radius: 0 10px !important;
++}
++
++body .tpo_color-swatches-wrapper > .tpo_shape_circle > div:first-child {
++    border: 4px solid #fff !important;
++}
++
++body label:has(.tpo_buttons-input:checked),
++body .tpo_buttons-wrapper .tpo_is_checked_swatches {
++    box-shadow: 0 0 0 2px rgb(var(--text-color));
++    border-color: transparent !important;
++}
++
++body .tpo_option-required-indicator,
++body .tpo_error-message {
++    color: rgb(var(--error-text)) !important;
++}
++
++.gfa-media {
++    border-radius: var(--rounded) !important;
++}
++
++.blog-post-card__figure {
++    aspect-ratio: 1;
++}
++
++.ppcse-card-plus {
++    display: none;
++}
++
++body .lb-upsell-addon-popup-card .lb-shared-variants-select,
++body .lb-upsell-product-page-card .lb-shared-variants-select,
++body lb-tq-page-upsell .lb-shared-variants-select {
++    width: 200px !important;
++    border-radius: 0 20px !important;
++    border-color: rgba(210, 186, 160, 0.5) !important;
++    height: 44px !important;
++    box-sizing: border-box !important;
++}
++
++.lb-upsell-product-page-card {
++    display: block;
++    background: #fff;
++    border-radius: var(--rounded);
++    margin-bottom: 0;
++    margin-top: 0;
++}
++
++.lb-upsell-product-page-card {
++    padding: 10px !important;
++}
++
++body .ppcse-card-lt-cont .lb-spc-cont {
++    border: none !important;
++}
++
++.lb-upsell-addon-popup-card .lb-spc-details-cont,
++.lb-upsell-product-page-card .lb-spc-details-cont,
++lb-tq-page-upsell .lb-spc-details-cont {
++    margin: 0 !important;
++}
++
++.lb-upsell-addon-popup-card .lb-spc-image-cont,
++.lb-upsell-product-page-card .lb-spc-image-cont,
++lb-tq-page-upsell .lb-spc-image-cont {
++    height: 130px !important;
++    width: 130px !important;
++    margin: 0 !important;
++    padding: 0;
++}
++
++.lb-upsell-addon-popup-card .lb-spc-image,
++.lb-upsell-product-page-card .lb-spc-image,
++lb-tq-page-upsell .lb-spc-image {
++    height: auto !important;
++    aspect-ratio: 1 !important;
++    width: 100% !important;
++    margin: 0;
++    object-fit: cover !important;
++}
++
++.lb-spc-border-radius {
++    display: flex;
++    column-gap: 20px;
++}
++
++.ppcse-card-lt-cont .lb-spc-details-name {
++    width: calc(100% - 16px);
++    overflow: initial;
++    height: auto;
++    max-height: max-content;
++    font-weight: bold;
++    white-space: initial;
++    position: initial;
++    text-overflow: inherit;
++    -webkit-line-clamp: none;
++}
++
++.lb-spc-details-cont {
++    display: flex;
++    flex-direction: column;
++}
++
++.lb-spc-details-price-cont {
++    margin-bottom: auto;
++}
++
++.lb-spc-details-checkbox-cont {
++    position: absolute;
++    background: #fff;
++    border-radius: 0 10px !important;
++    top: -10px;
++    left: -10px;
++    box-shadow: var(--shadow);
++}
++
++.ppcse-card-tot {
++    text-align: center;
++}
++
++.lb-upsell-addon-popup-card .lb-spc-image,
++.lb-upsell-product-page-card .lb-spc-image,
++lb-tq-page-upsell .lb-spc-image {
++    border-radius: 0 30px;
++}
++
++body .ppcse-tot-btn-div {
++    background: rgb(var(--button-background-primary)) !important;
++    color: #fff;
++    border-radius: var(--rounded) !important;
++    height: 54px;
++    box-sizing: border-box;
++    line-height: 38px;
++    font-size: var(--text-base);
++    border: 2px solid rgb(var(--button-background-primary));
++}
++
++body .ppcse-tot-btn-div:hover {
++    background: transparent !important;
++    color: rgb(var(--button-background-primary));
++}
++
++.ppcse-card-lt-cont {
++    background: #fff;
++    border-radius: var(--rounded);
++    padding: 10px;
++    box-shadow: var(--shadow);
++}
++
++.ppcse-card-tot-price-strike-out {
++    opacity: 0.7;
++    font-weight: 400;
++    font-size: 90%;
++}
++
++.ppcse-card-tot-price {
++    font-size: initial;
++}
++
++.lb-shared-variants-select {
++    padding-left: 15px;
++}
++
++.tpo_total-additional-price-wrapper {
++    border: none !important;
++    padding: 0 !important;
++    color: var(--text-color) !important;
++}
++
++.tpo_total-additional-price {
++    color: #708a5c !important;
++}
++
++.tpo-buy-it-now-btn ~ .shopify-payment-button__more-options,
++div[class*="product"]:has(.tpo_has-option-set)
++.shopify-payment-button__more-options {
++    pointer-events: initial;
++}
++
++.tpo_option-label.tpo_dropdown .tpo_option-input,
++.tpo_option-input.tpo_text-box {
++    border-radius: var(--rounded-button) !important;
++}
++
++.shopify-pc__banner__dialog {
++    width: 100% !important;
++    padding: var(--spacing-6) !important;
++    background: rgb(var(--background-primary)) !important;
++    color: rgb(var(--text-primary)) !important;
++    border-radius: 0 40px 0 0 !important;
++    border-width: 0 !important;
++    max-width: 445px !important;
++    right: auto;
++    left: 0;
++    font-size: 12px !important;
++    box-shadow: var(--shadow) !important;
++}
++
++.shopify-pc__banner__btn-accept,
++.shopify-pc__banner__btn-decline {
++    border: none !important;
++    max-width: 100px;
++    margin: 0 !important;
++    border-radius: var(--rounded-button) !important;
++}
++
++.shopify-pc__banner__btn-accept {
++    background: rgb(var(--button-background-primary)) !important;
++    color: #fff !important;
++}
++
++.shopify-pc__banner__btns {
++    gap: 10px !important;
++}
++
++.shopify-pc__banner__dialog button {
++    flex-basis: 100% !important;
++    margin: 0 !important;
++    text-align: left !important;
++}
++
++.line-item .list-disc {
++    list-style-type: none;
++}
++
++.slideshow__slide .h2 {
++    margin-top: 0;
++}
++
++.slideshow__slide .subheading {
++    font-size: 30px;
++    font-weight: 400;
++}
++
++.header__link-list .instagram a,
++.panel__scroller .instagram a {
++    color: #b2563f;
++}
++
++.button-preorder-wrapper .pre-order-2-button {
++    background: #b2563f;
++    border: 2px solid #b2563f;
++    font-size: 16px;
++    padding-top: 17px;
++    padding-bottom: 17px;
++    border-radius: var(--rounded-button);
++    text-align: center;
++    width: 100%;
++}
++
++.button-preorder-wrapper .estimated-shipping-date {
++    padding-left: 0;
++    padding-right: 0:
++}
++
++.preorder-btn-wrapper {
++    width: 100%;
++}
++
++.preorder-btn-wrapper .button-preorder-wrapper {
++    width: 100%;
++}
++
++.button-preorder-wrapper .pre-order-2-button:hover {
++    background: transparent;
++    width: 100%;
++}
++.horizontal-product {
++    border-radius: var(--rounded-sm) !important;
++    box-shadow: var(--shadow);
++}
++.horizontal-product__image {
++    aspect-ratio: 1;
++    object-fit: cover;
++    border-radius: var(--rounded-sm) !important;
++}
++.badge {
++    font-weight: 400;
++}
++.badge--lg {
++    padding: 5px 10px;
++}
++.badge--collector {
++    background: #22394C;
++    color: #fff;
++}
++.product-card__badge-list {
++    display: flex;
++}
++.product-card__image {
++    object-fit: cover;
++}
++.quantity-selector {
++    height: 40px;
++}
++.privacy-bar__inner {
++    border-radius: var(--rounded);
++    border-width: 0;
++}
++.gift-card__image {
++    max-width: 540px;
++    border-radius: var(--rounded-button);
++}
++.gift-card__redeem-info:last-child {
++    border-width: 0px;
++}
++.gift-card__redeem-code {
++    border-radius: var(--rounded-button);
++}
++.gift-card__redeem-info {
++    background: #fff;
++    box-shadow: var(--shadow);
++    justify-content: space-around;
++}
++.impact-text {
++    font-size: 20px;
++}
++.line-item__media {
++    border-radius: var(--rounded-sm) !important;
++}
++.shopify-payment-button__button {
++    height: 55px !important;
++}
++.product-gallery__media img,
++.line-item__media {
++    margin-inline-start: auto;
++    margin-inline-end: auto;
++    aspect-ratio: 1;
++    object-fit: cover;
++}
++.product-info__price .rating-with-text {
++    flex-direction: column;
++}
++.product-info__price .product-info__badge-list {
++    align-self: flex-start;
++}
++.tpo_option-divider {
++    border-color: rgba(210, 186, 160, .5) !important;
++}
++.tpo_option-set-wrapper {
++    padding: 0 !important;
++}
++
++.product-quick-add.is-visible img,
++.predictive-search-result>img{
++    aspect-ratio: 1;
++    border-radius: var(--rounded-button);
++    object-fit: cover;
++}
++.bg-white {
++    background: #fff;
++    border-radius: 0 70px;
++}
++.contact-form.bg-white {
++    border-radius: var(--rounded);
++}
++
++@media screen and (max-width: 1000px) {
++    .product-gallery__media-list.scroll-area {
++        border-radius: var(--rounded-large);
++    }
++}
++@media screen and (max-width: 990px) {
++    .footer__block--menu {
++        max-width: initial;
++        width: 100%;
++    }
++    .footer__block-list {
++        text-align: center;
++        display: flex;
++        flex-wrap: wrap;
++        justify-content: center;
++    }
++}
++@media screen and (min-width: 700px) {
++    .feature-chart {
++        border-radius: var(--rounded);
++    }
++
++    .product-quick-add {
++        display: none !important;
++    }
++
++    .gift-card__image {
++        max-width: 540px;
++    }
++}
++@media screen and (max-width: 700px) {
++    :root {
++        --impact-text-font-size: calc(min(15vw, 65px));
++        --text-h2: 1.5rem;
++    }
++
++    .impact-text {
++        --impact-text-spacing: var(--spacing-5);
++    }
++
++    .impact-text h3,
++    .impact-text__content {
++        font-size: 19px;
++        font-weight: 400 !important;
++    }
++
++    .impact-text__text {
++        font-size: 35px;
++    }
++
++    .impact-text .snap-center + .snap-center {
++        border-top: 1px solid #d2baa080;
++        padding-top: var(--impact-text-spacing);
++    }
++
++    shopify-accelerated-checkout,
++    shopify-accelerated-checkout-cart {
++        --shopify-accelerated-checkout-button-block-size: 44px;
++    }
++
++    .slideshow__slide .subheading {
++        font-size: 20px;
++    }
++
++    .slideshow__slide .h2 {
++        font-size: 22px;
++    }
++
++    .button--xl {
++        padding-top: var(--spacing-3);
++        padding-bottom: var(--spacing-3);
++    }
++    .buy-buttons--compact {
++        display: flex;
++        flex-direction: column;
++    }
++    .buy-buttons--compact .button {
++        width: 100%;
++
++    }
++}
++
++@media only screen and (max-width: 480px) {
++    .shopify-pc__banner__btns {
++        flex-direction: row !important;
++        flex-wrap: wrap !important;
++    }
++
++    .shopify-pc__banner__dialog button.shopify-pc__banner__btn-manage-prefs {
++        text-align: right !important;
++    }
++}

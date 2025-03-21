@@ -151,23 +151,21 @@ Supported variables
         {%- when 'separator' -%}
           <hr class="product-info__separator">
 
-        {%- when 'description' -%}
-          {%- if block.settings.collapse_content -%}
-            {%- if product.description != blank -%}
-              {%- capture accordion_title -%}{{ 'product.general.description' | t }}{%- endcapture -%}
-              {%- capture accordion_content -%}<div class="prose">{{ product.description }}</div>{%- endcapture -%}
-
-              {%- assign icon = block.settings.custom_icon | default: block.settings.icon -%}
-              {%- render 'accordion', title: accordion_title, content: accordion_content, icon: icon, icon_width: block.settings.icon_width, class: 'product-info__accordion', block: block -%}
-            {%- endif -%}
-          {%- else -%}
-            {%- if product.description != blank -%}
-              <div class="product-info__description">
-                <div class="prose">
-                  {{- product.description -}}
+        {%- when 'short_description' -%}
+            {%- if product.metafields.custom.product_short_description != blank -%} 
+              {%- if block.settings.collapse_content -%}
+                {%- capture accordion_title -%}{{ 'product.general.description' | t }}{%- endcapture -%}
+                {%- capture accordion_content -%}<div class="prose">{{ product.metafields.custom.product_short_description | metafield_tag  }}</div>{%- endcapture -%}
+  
+                {%- assign icon = block.settings.custom_icon | default: block.settings.icon -%}
+                {%- render 'accordion', title: accordion_title, content: accordion_content, icon: icon, icon_width: block.settings.icon_width, class: 'product-info__accordion', block: block -%}
+              {%- else -%}
+                <div class="product-info__description">
+                  <div class="prose">
+                    {{- product.metafields.custom.product_short_description | metafield_tag -}}
+                  </div>
                 </div>
-              </div>
-            {%- endif -%}
+             {%- endif -%}
           {%- endif -%}
 
         {%- when 'variant_picker' -%}
@@ -320,7 +318,32 @@ Supported variables
           <div class="product-info__pickup-availability">
             {%- render 'pickup-availability', product_variant: product.selected_or_first_available_variant -%}
           </div>
-
+         {%- when 'description' -%}
+          {%- if product.description != blank -%}
+            <div class="product-info__description">
+              <div class="prose">
+                {{- product.description -}}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- when 'specifications' -%}
+            {%- if product.metafields.custom.product_specifications != blank -%} 
+              <div class="feature-chart text-custom">
+                <div class="feature-chart__table divide-y scroll-area">
+                  {%- for specification in product.metafields.custom.product_specifications.value -%}
+                    {% assign specification_detail = specification | split: ":" %}
+                    <div class="feature-chart__table-row">
+                      <div class="feature-chart__heading bold">
+                        {{ specification_detail[0] }}
+                      </div>
+                      <div class="feature-chart__value prose text-subdued">
+                        {{ specification_detail[1] }}
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+          {%- endif -%}
         {%- when 'text' -%}
           {%- if block.settings.text != blank -%}
             <div class="product-info__text">
